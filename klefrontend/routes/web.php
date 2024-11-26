@@ -50,4 +50,4 @@ Route::post('/logout', function () {
 
 Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
 Route::put('products/{id}', [ProductController::class, 'update'])->name('product.update');
-//xd
+//x
