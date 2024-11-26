@@ -1,0 +1,67 @@
+services:
+  api_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api_app
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=laravel
+      - DB_USERNAME=laravel_user
+      - DB_PASSWORD=password
+    depends_on:
+      - mysql
+    networks:
+      - kle_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel_user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    networks:
+      - kle_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - kle_network
+
+  nginx:
+    image: nginx:latest
+    container_name: api_nginx
+    ports:
+      - "8000:80"  # Backend accessible on port 8000
+    volumes:
+      - .:/var/www/html
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Nginx config file
+    depends_on:
+      - api_app
+    networks:
+      kle_network:
+        aliases:
+          - api_nginx  # Nginx container accessible with the alias 'api_nginx'
+
+volumes:
+  dbdata:
+    driver: local
+
+networks:
+  kle_network:
+    external: true

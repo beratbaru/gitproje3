@@ -1,0 +1,29 @@
+services: 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: frontend_app
+    volumes:
+      - .:/var/www/html
+    networks:
+      - kle_network
+
+  nginx:
+    image: nginx:latest
+    container_name: frontend_nginx
+    ports:
+      - "8003:80"  # Frontend accessible on port 8003
+    volumes:
+      - .:/var/www/html
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Nginx config file
+    depends_on:
+      - app
+    networks:
+      kle_network:
+        aliases:
+          - frontend_nginx  # Updated alias for frontend container
+
+networks:
+  kle_network:
+    external: true
