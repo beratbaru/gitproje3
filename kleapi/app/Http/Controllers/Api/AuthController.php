@@ -15,6 +15,14 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6',
+        ], [
+            'email.required' => 'E-posta alanı boş bırakılamaz.',
+            'email.string' => 'E-posta yalnızca metin içermelidir.',
+            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
+            'email.max' => 'E-posta en fazla 255 karakter olabilir.',
+            'password.required' => 'Şifre alanı boş bırakılamaz.',
+            'password.string' => 'Şifre yalnızca metin içermelidir.',
+            'password.min' => 'Şifre en az 6 karakter olmalıdır.',
         ]);
     
         $user = User::where('email', $request->email)->first();
@@ -36,9 +44,10 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Giriş başarılı.',
             'token_type' => 'Bearer',
-            'token' => 'Bearer '.$token
+            'token' => 'Bearer ' . $token
         ], 200);
     }
+    
     
 
     // Registration Method
@@ -48,28 +57,37 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:6',
+        ], [
+            'name.required' => 'İsim alanı boş bırakılamaz.',
+            'name.string' => 'İsim yalnızca metin içermelidir.',
+            'name.max' => 'İsim en fazla 255 karakter olabilir.',
+            'email.required' => 'E-posta alanı boş bırakılamaz.',
+            'email.string' => 'E-posta yalnızca metin içermelidir.',
+            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
+            'email.max' => 'E-posta en fazla 255 karakter olabilir.',
+            'email.unique' => 'Bu e-posta zaten kayıtlı.',
+            'password.required' => 'Şifre alanı boş bırakılamaz.',
+            'password.string' => 'Şifre yalnızca metin içermelidir.',
+            'password.min' => 'Şifre en az 6 karakter olmalıdır.',
         ]);
-
+    
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+    
         if ($user) {
-            $token = $user->createToken($user->name . '-Auth-Token')->plainTextToken;
-
             return response()->json([
-                'message' => 'Registration successful.',
-                'token_type' => 'Bearer',
-                'token' => $token
+                'message' => 'Kayıt Başarılı.',
             ], 201);
         }
-
+    
         return response()->json([
-            'message' => 'Something went wrong during registration.',
+            'message' => 'Bir şeyler ters gitti.',
         ], 500);
     }
+    
 
     // Logout Method
     public function logout(Request $request)
