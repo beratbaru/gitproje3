@@ -25,6 +25,7 @@ WORKDIR /var/www
 # PHP genişletmelerini ayarla 
 RUN docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl 
 RUN sed -i 's/listen = .*/listen = 9000/' /usr/local/etc/php-fpm.d/www.conf
+RUN chown -R www-data:www-data storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
 
 # Node.js ve npm'i yükle 
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \ 
