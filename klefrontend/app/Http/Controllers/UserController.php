@@ -10,18 +10,32 @@ class UserController extends Controller
     // Registration Method
     public function register(Request $request)
     {
+        // Validate the request on the frontend to catch basic errors early
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    
+        // Send the registration data to the API, including password_confirmation
         $response = Http::post('http://api_nginx/api/register', [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
+            'password_confirmation' => $request->password_confirmation,
         ]);
-
+    
+        // Handle the API response
         if ($response->successful()) {
-            return redirect()->route('login')->with('success', 'Registration successful!');
+            return redirect()->route('login')->with('success', 'Kayıt Başarılı!');
         }
-
-        return redirect()->back()->withErrors($response->json());
+    
+        // Return errors from the API if the request fails
+        return redirect()->back()->withErrors(
+            $response->json('errors') ?? ['api_error' => 'Kayıt Başarısız.']
+        );
     }
+    
 
     // Login Method
     public function login(Request $request)
