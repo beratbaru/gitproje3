@@ -29,6 +29,7 @@ class UserController extends Controller
         if ($response->successful()) {
             return redirect()->route('login')->with('success', 'Kayıt Başarılı!');
         }
+        
     
         // Return errors from the API if the request fails
         return redirect()->back()->withErrors(

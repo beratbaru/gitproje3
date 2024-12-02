@@ -39,7 +39,7 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'product_name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'product_price' => 'required|numeric|min:1',
+            'product_price' => 'required|numeric|min:0|max:99999999.99', // Allows up to 10 digits, 2 decimals
         ]);
 
         if ($request->wantsJson()) {
