@@ -76,7 +76,7 @@ class ProductController extends Controller
         // Validate the input fields
         $validated = $request->validate([
             'product_name' => 'required|string|max:255',
-            'product_price' => 'required|numeric|min:0|max:99999999.99', // Allows up to 10 digits, 2 decimals
+            'product_price' => 'required|numeric|min:0.1|max:99999999.99', // Allows up to 10 digits, 2 decimals
             'description' => 'required|string',
         ]);
     

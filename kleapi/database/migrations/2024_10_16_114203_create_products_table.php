@@ -11,7 +11,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('product_name');
-            $table->bigInteger('product_price'); // 10 digits, no decimals
+            $table->decimal('product_price', 10, 2); // Up to 10 digits, 2 decimal places
             $table->text('description');
             $table->timestamps();
         });

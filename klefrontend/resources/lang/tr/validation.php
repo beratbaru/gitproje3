@@ -71,5 +71,8 @@ return [
         'email' => 'E-posta',
         'password' => 'Şifre',
         'password_confirmation' => 'Şifre Onayı',
+        'product_name' => 'Ürün Adı',
+        'product_price' => 'Ürün Fiyatı',
+        'description' => 'Açıklama',
     ],
 ];
