@@ -64,4 +64,4 @@ volumes:
 
 networks:
   kle_network:
-    external: true
+    name: kle_network
