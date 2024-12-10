@@ -27,3 +27,4 @@ services:
 networks:
   kle_network:
     name: kle_network
+    external: true
