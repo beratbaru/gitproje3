@@ -13,8 +13,8 @@ Route::middleware(['auth:sanctum'])->group(function (){
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/profile', [AuthController::class, 'profile']);
 Route::apiResource('products', ProductController::class);
-Route::get('/products', [ProductController::class, 'index']); // List products
-Route::get('/products/{id}', [ProductController::class, 'show']); // Show single product
+Route::get('/products', [ProductController::class, 'index']); 
+Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::delete('products/{id}', [ProductController::class, 'destroy']);
 Route::put('products/{id}', [ProductController::class, 'update']);
 Route::get('/products', [ProductController::class, 'index']);
